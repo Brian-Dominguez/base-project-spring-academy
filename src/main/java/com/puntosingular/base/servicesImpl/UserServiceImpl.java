@@ -38,5 +38,10 @@ public class UserServiceImpl implements UserService{
 	public UserDTO findByName(String name) {
 		return userConverter.UsertoUserDTO(userRepository.findByName(name));
 	}
+	
+	@Override
+	public void setUser(User user) {
+		 this.userRepository.save(user);
+	}
 
 }

@@ -9,10 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.puntosingular.base.dto.UserDTO;
+import com.puntosingular.base.models.User;
 import com.puntosingular.base.services.UserService;
 
 @RestController
@@ -72,4 +75,21 @@ public class UserController {
 
 		// return userService.getUsers();
 	}
+
+	@PostMapping("usuarioNuevo")
+	public ResponseEntity<?> usuarioNuevo(@RequestBody User user) {
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+		this.userService.setUser(user);
+		response.put("data", "Usuario Agrgado");
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.ACCEPTED);
+		}catch (Exception e) {
+            response.put("No se puede agregar el usuario", e.getStackTrace());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+		// return userService.getUsers();
+	}
+
 }
